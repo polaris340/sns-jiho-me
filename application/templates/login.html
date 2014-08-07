@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+{% endblock %}
+
+{% block nav_menu %}
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+    <li {% block nav_login %}class="active"{% endblock %}><a href="{{ url_for('login') }}">Sign in</a></li>
+    <li {% block nav_join %}{% endblock %}><a href="{{ url_for('join') }}">Sign up</a></li>
+
+</ul>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form role="form" method="post" action="{% block form_action %}{{ url_for('login_submit') }}{% endblock %}">
+                {% block form %}
+                <div class="form-group">
+                    <label for="input-email">Email</label>
+                    <input type="email" id="input-email"
+                    name="email" class="form-control" placeholder="Email" autofocus required>
+                </div>
+                <div class="form-group">
+                    <label for="input-password">Password</label>
+                    <input type="password" class="form-control" id="input-password"
+                    name="password" placeholder="Password" required>
+                </div>
+                {% endblock %}
+
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock %}

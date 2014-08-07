@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}LIKELION SNS{% endblock %}</title>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+
+    {% endblock %}
+</head>
+<body>
+    {% block nav %}
+
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Likelion SNS</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    {% block nav_menu %}
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li {% block nav_timeline %}{%endblock %}><a href="{{ url_for('timeline', wall_id=session['wall_id']) }}">Timeline | {{ session['wall_username'] }}</a></li>
+        <li {% block nav_user_list %}{% endblock %}><a href="{{ url_for('user_list') }}">User List</a>
+        </li>
+
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li {% block nav_logged_user %}{% endblock %}><a href="{{ url_for('timeline',wall_id=session['user_id']) }}">{% block logged_user_name %}{{ session['username'] }}{% endblock %}</a></li>
+        
+        <li {% block nav_write %}{% endblock %}><a href="{{ url_for('write') }}"><i class="glyphicon glyphicon-pencil"></i></a></li>
+        
+        <li><a href="{{ url_for('logout') }}"><i class="glyphicon glyphicon-log-out"></i></a></li>
+    </ul>
+</div><!-- /.navbar-collapse -->
+{% endblock %}
+</div><!-- /.container -->
+</nav>
+{% endblock %}
+
+{% block body %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+</body>
+</html>

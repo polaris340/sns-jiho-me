@@ -1,0 +1,24 @@
+{% for post in context['posts'] %}
+{% if not post.is_secret or (post.is_secret and (post.wall_id == session['user_id'] or post.user_id == session['user_id'])) %}
+<div class="panel panel-default "
+ data-post-id="{{ post.id }}">
+
+
+    <div class="panel-body">
+
+        <h3 class="panel-title">
+            <a href="{{ url_for('timeline',wall_id=post.user.id) }}">{{ post.user.username }}</a>
+        </h3>
+
+        <small>{{ post.edited_time }}</small>
+        <hr>
+        {{ context.BS(post.body).text|truncate(30)|safe }}<br><br><a href="{{ url_for('read',post_id=post.id) }}">Read</a>
+    </div>
+    <div class="panel-footer"><a href="{{ url_for('read',post_id=post.id) }}"><span class="label label-primary pull-right"><i class="glyphicon glyphicon-comment"></i>&nbsp;{{ post.comments.count() }}</span></a>
+        {% if post.is_secret %}
+        <span class="label label-danger pull-right"><i class="glyphicon glyphicon-lock"></i>&nbsp;Secret</span>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endfor %}

@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/read.js') }}"></script>
+
+
+
+
+{% if context.is_author %}
+<link href="{{ url_for('static', filename='editor/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+<link href="{{ url_for('static',filename='editor/css/froala_editor.min.css') }}" rel="stylesheet" type="text/css">
+
+<link href="{{ url_for('static',filename='editor/css/themes/dark.min.css') }}" rel="stylesheet" type="text/css">
+
+<script src="{{ url_for('static', filename='editor/js/froala_editor.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/edit.js') }}"></script>
+{% endif %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+
+            <div class="panel-body">
+                <h3 class="panel-title"><a href="{{ url_for('timeline',wall_id = context['post'].user.id) }}">{{ context.post.user.username }}</a>
+                    {% if context.is_author %}
+                    <input type="hidden" id="input-post-id" value="{{ context.post.id }}">
+                    <a class="btn-delete-post" href="{{ url_for('delete',post_id=context.post.id) }}"><span class="label label-danger pull-right">삭제</span></a>
+                    <span id="btn-edit-post-submit" class="label label-primary pull-right">수정</span>
+                    {% endif %}</h3>
+                <small>{{ context.post.edited_time }}</small>
+
+                <hr>
+
+                <div id="post-body">
+                {{ context.post.body|safe }}
+                </div>
+
+
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Comments</strong></li>
+                <li class="list-group-item">
+                    <form id="form-comment" action="{{ url_for('add_comment') }}" method="post" role="form">
+                        <input type="hidden" name="post_id" value="{{ context.post.id }}">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{ session['username'] }}</span>
+                            <input type="text" class="form-control" name="body">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">댓글 달기</button>
+                            </span>
+                        </div><!-- /input-group -->
+                        
+
+                    </form>
+                </li>
+                {% for comment in context.post.comments %}
+                <li class="list-group-item"><a href="{{ url_for('timeline', wall_id=comment.user.id) }}"><strong>{{ comment.user.username }}</strong></a>&nbsp;{{ comment.body }}<small class="pull-right">{{ comment.created_time }}</small></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</div>
+{% endblock %}
