@@ -42,4 +42,9 @@ class Comment(db.Model):
     body        = db.Column(db.Text())
     created_time = db.Column(db.DateTime, default = db.func.now())
 
-
+class Follow(db.Model):
+    id          = db.Column(db.Integer, primary_key = True)
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    follower   = db.relationship('User', foreign_keys = [follower_id], backref = db.backref('followings', cascade = 'all, delete-orphan', lazy = 'dynamic'))
+    following_id= db.Column(db.Integer, db.ForeignKey('user.id'))
+    following  = db.relationship('User', foreign_keys = [following_id], backref = db.backref('followers', cascade = 'all, delete-orphan', lazy = 'dynamic'))

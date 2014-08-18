@@ -63,3 +63,7 @@ def edit_user_data(id, data, profileImageFile):
         return '0'
     except:
         return '1'
+
+
+def find_user_by_keyword(keyword):
+    return User.query.filter(User.username.like('%'+keyword+'%'))

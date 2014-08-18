@@ -1,14 +1,9 @@
-{% extends 'layout.html' %}
+{% for user in users %}
+
+{% if session.user_id != user.id %}
+<li class="list-group-item" data-user-id="{{ user.id }}">{{ user.username }}({{user.email}})</li>
+{% endif %}
 
 
-{% block nav_user_list %}class="active"{% endblock %}
 
-{% block body %}
-
-<div class="container">
-{% for user in context.users %}
-<a href="{{ url_for('timeline',wall_id=user.id) }}" class="btn btn-default">{{ user.username }}</a>&nbsp;
 {% endfor %}
-</div>
-
-{% endblock %}

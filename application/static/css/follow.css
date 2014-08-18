@@ -1,0 +1,4 @@
+#find-result li:hover {
+    cursor:pointer;
+    background:#eee;
+}

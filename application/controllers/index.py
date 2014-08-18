@@ -31,4 +31,4 @@ def timeline(wall_id) :
 def user_list():
     users = get_users()
     context = {'users':users}
-    return render_template('user_list.html',context=context)
+    return render_template('all_user_list.html',context=context)

@@ -35,6 +35,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li {% block nav_timeline %}{%endblock %}><a href="{{ url_for('timeline', wall_id=session['wall_id']) }}">Timeline | {{ session['wall_username'] }}</a></li>
+        <li {% block nav_follow %}{% endblock %}><a href="{{ url_for('follow') }}">Follow</a>
+        </li>
         <li {% block nav_user_list %}{% endblock %}><a href="{{ url_for('user_list') }}">User List</a>
         </li>
 
