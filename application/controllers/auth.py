@@ -23,14 +23,15 @@ def login_submit():
     password = request.form['password']
 
     user = login_check(email, password)
-    if user:
+    if user.count() == 1:
         # login success
-        user = user.first()
+        user = user.one()
         session['username'] = user.username
         session['user_id'] = user.id
         return '0'
     else:
         return '1'
+
 
 @app.route('/logout')
 def logout():
@@ -83,5 +84,6 @@ def email_duplicate_check():
 
 def is_login():
     return 'username' in session and 'user_id' in session
+
 
 

@@ -20,7 +20,7 @@ def get_post(id):
     return Post.query.get(id)
 
 def get_all_posts():
-    return Post.query.all().order_by(desc(Post.edited_time))
+    return Post.query.order_by(desc(Post.edited_time)).all()
 
 
 def get_wall_posts(wall_id,start_id = 0, 

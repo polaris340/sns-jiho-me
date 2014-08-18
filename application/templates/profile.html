@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/profile.css') }}">
+{% endblock %}
+
+{% block nav_logged_user %}class="active"{% endblock %}
+{% block body %}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="row text-center">
+                <img class="col-md-offset-3 col-md-6" id="image-profile" src="{% if userData.profile_image %}{{ url_for('profile_image',filename=userData.profile_image) }}{% else %}{{ url_for('static',filename='res/img/empty_profile.png') }}{% endif %}" alt="" >
+            </div>
+            <form role="form" enctype="multipart/form-data" method="post" action="
+            {{ url_for('edit_profile') }}
+            ">
+
+            <div class="form-group">
+                <label for="input-profile-image">Profile Image</label>
+                <input type="file" name="input-profile-image">
+                <p class="help-block"></p>
+            </div>
+            <div class="form-group">
+                <label for="input-email">Email</label>
+                <input type="email" id="input-email"
+                name="email" class="form-control" placeholder="Email" required value="{{ userData.email }}" readonly tabindex="-1">
+            </div>
+            <div class="form-group">
+                <label for="input-password">Change Password</label>
+                <input type="password" class="form-control" id="input-password"
+                name="password" placeholder="Password" >
+            </div>
+
+            <div class="form-group">
+                <label for="input-password-confirm">Confirm password</label>
+                <input type="password" class="form-control" id="input-password-confirm" placeholder="Confirm password" 
+                name="password-confirm" >
+            </div>
+
+            <div class="form-group">
+                <label for="input-username">Username</label>
+                <input type="text" class="form-control" id="input-username" 
+                name="username" placeholder="Username" required value="{{ userData.username }}">
+            </div>
+
+            <div class="form-group">
+                <label class="radio-inline">
+                  <input type="radio" name="gender" value="F" {% if userData.gender == 'F' %}checked{% endif %}> Female
+              </label>
+              <label class="radio-inline">
+                  <input type="radio" name="gender" value="M" {% if userData.gender == 'M' %}checked{% endif %}> Male
+              </label>
+          </div>
+          <div class="form-group">
+            <label for="input-mobile">Phone</label>
+            <input type="text" class="form-control" id="input-mobile" 
+            name="mobile" placeholder="Phone" required value="{{ userData.mobile }}">
+        </div>
+        <div class="form-group">
+            <label for="input-birthday">Birthday</label>
+            <input type="date" class="form-control" id="input-birthday"  name="birthday" required value="{{ userData.birthday }}">
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary btn-block">Edit</button>
+
+    </form>
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<script src="{{ url_for('static',filename='js/profile.js') }}"></script>
+{% endblock %}

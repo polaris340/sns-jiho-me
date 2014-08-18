@@ -12,7 +12,7 @@
 
         <small>{{ post.edited_time }}</small>
         <hr>
-        {{ context.BS(post.body).text|truncate(30)|safe }}<br><br><a href="{{ url_for('read',post_id=post.id) }}">Read</a>
+        {{ context.BS(post.body).text|truncate(30) }}<br><br><a href="{{ url_for('read',post_id=post.id) }}">Read</a>
     </div>
     <div class="panel-footer"><a href="{{ url_for('read',post_id=post.id) }}"><span class="label label-primary pull-right"><i class="glyphicon glyphicon-comment"></i>&nbsp;{{ post.comments.count() }}</span></a>
         {% if post.is_secret %}

@@ -41,7 +41,7 @@
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-        <li {% block nav_logged_user %}{% endblock %}><a href="{{ url_for('timeline',wall_id=session['user_id']) }}">{% block logged_user_name %}{{ session['username'] }}{% endblock %}</a></li>
+        <li {% block nav_logged_user %}{% endblock %}><a href="{{ url_for('profile') }}">{% block logged_user_name %}{{ session['username'] }}{% endblock %}</a></li>
         
         <li {% block nav_write %}{% endblock %}><a href="{{ url_for('write') }}"><i class="glyphicon glyphicon-pencil"></i></a></li>
         
