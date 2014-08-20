@@ -23,14 +23,38 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <form action="{{ url_for('post_submit') }}" method="POST">
-        <textarea name="body" id="editor" cols="30" rows="10"></textarea>
+        <!-- <textarea name="body" id="editor" cols="30" rows="10"></textarea>
         <div class="checkbox">
           <label>
 
             <input type="checkbox" name="is_secret"> Secret
           </label>
         </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button> -->
+
+
+        {{ form.hidden_tag() }}
+
+        {% if form.errors %}
+          <div class="alert alert-danger fade in">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            {% for field, errors in form.errors.items() %}
+              <ul>
+                {% for error in errors %}
+                  {{ error }}
+                {% endfor %}
+              </ul>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% from "_form_field.html" import render_field %}
+        {% for field in form if field.widget.input_type != "hidden" %}
+          {{ render_field(field, class="form-control") }}
+        {% endfor %}
+
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
       </form>
 
     </div>

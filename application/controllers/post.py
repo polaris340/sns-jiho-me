@@ -1,11 +1,26 @@
 #-*- coding:utf-8 -*-
 from application import app
 from flask import render_template, redirect, url_for, session, request
+from flask.ext.wtf import Form
+from wtforms import (
+    StringField,
+    PasswordField,
+    TextAreaField
+)
+from wtforms import validators
+from wtforms.fields.html5 import EmailField
 from application.models.post_manager import *
 from application.models import comment_manager
 from auth import is_login
 from bs4 import BeautifulSoup as BS
 
+
+class ArticleForm(Form):
+    content = StringField(
+        u'내용',
+        [validators.data_required(u'내용을 입력하시기 바랍니다.')],
+        description =  {'placeholder': u'내용을 입력하세요.'}
+    )
 
 @app.route('/read/<int:post_id>')
 def read(post_id) :
@@ -20,25 +35,34 @@ def read(post_id) :
     return render_template('read.html', context = context)
 
 
-@app.route('/write')
+@app.route('/write', methods=['GET','POST'])
 def write():
     if not is_login():
         return redirect(url_for('login'))
 
-    return render_template('write.html')
+    form = ArticleForm()
+    return render_template('write.html', form=form)
 
 @app.route('/post_submit', methods = ['POST'])
 def post_submit():
     if not is_login():
         return redirect(url_for('login'))
     
-    postData = {
-        'user_id' : session['user_id'],
-        'wall_id' : session['wall_id'],
-        'is_secret' : '1' if 'is_secret' in request.form else '0',
-        'body' : request.form['body']
-    }
-    add_post(postData)
+    form = ArticleForm()
+    if form.validate_on_submit():
+        # article = Article(
+        #     user_id     = session['user_id'],
+        #     wall_id     = session['wall_id'],
+        #     is_secret   = '0',
+        #     body        = form.content.data
+        # )
+        postData = {
+            'user_id' : session['user_id'],
+            'wall_id' : session['wall_id'],
+            'is_secret' : '1' if 'is_secret' in request.form else '0',
+            'body' : form.content.data
+        }
+        add_post(postData)
 
 
     return redirect(url_for('timeline',wall_id = session['wall_id']))

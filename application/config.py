@@ -4,9 +4,9 @@ from application import app
 app.config.update(dict(
     DEBUG=True,
     SECRET_KEY='development key',
-    SQLALCHEMY_DATABASE_URI = 'mysql+gaerdbms:///snsdb?instance=jiho-me-blog:jiho-me-blog-db',
+    SQLALCHEMY_DATABASE_URI = 'mysql+gaerdbms:///wtfdb?instance=affable-tribute-629:dbaffable-tribute-629',
     migration_directory = 'migrations',
-    UPLOAD_FOLDER = '/gs/jiho-me-blog-storage',
+    UPLOAD_FOLDER = '/gs/sns_storage',
     IMAGE_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif']),
 
 ))
