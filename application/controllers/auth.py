@@ -58,7 +58,7 @@ def login_submit():
             session['username'] = user.username
             session['user_id'] = user.id
             # return '0'
-            return redirect(url_for('index'))
+            return redirect(url_for('timeline'))
         else:
             login_error = "wrong email or password"
             return render_template('login.html', form=form, login_error= login_error)
