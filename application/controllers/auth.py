@@ -44,14 +44,7 @@ def login_submit():
 
     form = UserForm()
     if form.validate_on_submit():
-        before_user = User(
-            email       = form.email.data,
-            password    = form.password.data
-        )
-    # email = request.form['email']
-    # password = request.form['password']
-
-        user = login_check(before_user.email, before_user.password)
+        user = login_check(form.email.data, form.password.data)
         if user.count() == 1:
             # login success
             user = user.one()

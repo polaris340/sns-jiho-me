@@ -21,31 +21,47 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <form role="form" method="post" action="{% block form_action %}{{ url_for('login_submit') }}{% endblock %}">
-                {{ form.hidden_tag() }}
+                {% block form %}
+                {% if form %}
+                    {{ form.hidden_tag() }}
 
-                {% if form.errors %}
-                  <div class="alert alert-danger fade in">
-                    <a class="close" data-dismiss="alert" href="#">&times;</a>
-                    {% for field, errors in form.errors.items() %}
-                      <ul>
-                        {% for error in errors %}
-                          {{ error }}
+                    {% if form.errors %}
+                      <div class="alert alert-danger fade in">
+                        <a class="close" data-dismiss="alert" href="#">&times;</a>
+                        {% for field, errors in form.errors.items() %}
+                          <ul>
+                            {% for error in errors %}
+                              {{ error }}
+                            {% endfor %}
+                          </ul>
                         {% endfor %}
-                      </ul>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-                {% if login_error %}
-                <div class="alert alert-danger fade in">
-                    <a class="close" data-dismiss="alert" href="#">&times;</a>
-                    {{ login_error }}
-                </div>
-                {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if login_error %}
+                    <div class="alert alert-danger fade in">
+                        <a class="close" data-dismiss="alert" href="#">&times;</a>
+                        {{ login_error }}
+                    </div>
+                    {% endif %}
 
-                {% from "_form_field.html" import render_field %}
-                {% for field in form if field.widget.input_type != "hidden" %}
-                  {{ render_field(field, class="form-control") }}
-                {% endfor %}
+                    {% for field in form if field.widget.input_type != "hidden" %}
+                    <div class="form-group{% if field.errors %} has-error{% endif %}">
+                        <label for="{{ field.id }}">{{ field.label }}</label>
+                        {{ field(class="form-control", placeholder=field.description.placeholder) }}
+
+                        {% if field.errors %}
+                        <div class="help-block">
+                            <ul>
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% endblock %}
 
                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
