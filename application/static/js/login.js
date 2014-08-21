@@ -1,10 +1,10 @@
-$(document).ready(function(){
-    $(document).on('submit','form',function onLoginSubmit(){
-        var data = $(this).serializeArray();
-        login(data);
-        return false;
-    });
-});
+// $(document).ready(function(){
+//     $(document).on('submit','form',function onLoginSubmit(){
+//         var data = $(this).serializeArray();
+//         login(data);
+//         return false;
+//     });
+// });
 
 
 

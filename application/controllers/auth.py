@@ -4,7 +4,28 @@ from flask import session, request, render_template, redirect, url_for
 from application.models.user_manager import *
 import re
 
+from flask.ext.wtf import Form
+from wtforms import (
+    StringField,
+    PasswordField
+)
+from wtforms import validators
+from wtforms.fields.html5 import EmailField
 
+class UserForm(Form):
+    email = StringField(
+        u'email',
+        [
+            validators.data_required(message=u'please enter email'),
+            validators.Email(message=u'use email form')
+        ],
+        description = {'placeholder': u'likelion@gmail.com'}
+    )
+    password = PasswordField(
+        u'password',
+        [validators.data_required(message=u'please enter password')],
+        description = {'placeholder': u'oooooo'}
+    )
 
 @app.route('/join')
 def join():
@@ -15,22 +36,34 @@ def login():
     if is_login():
         return redirect(url_for('timeline'))
     else:
-        return render_template('login.html')
+        form = UserForm()
+        return render_template('login.html', form=form)
 
 @app.route('/login_submit', methods = ['POST'])
 def login_submit():
-    email = request.form['email']
-    password = request.form['password']
 
-    user = login_check(email, password)
-    if user.count() == 1:
-        # login success
-        user = user.one()
-        session['username'] = user.username
-        session['user_id'] = user.id
-        return '0'
+    form = UserForm()
+    if form.validate_on_submit():
+        before_user = User(
+            email       = form.email.data,
+            password    = form.password.data
+        )
+    # email = request.form['email']
+    # password = request.form['password']
+
+        user = login_check(before_user.email, before_user.password)
+        if user.count() == 1:
+            # login success
+            user = user.one()
+            session['username'] = user.username
+            session['user_id'] = user.id
+            # return '0'
+            return redirect(url_for('index')
+        else:
+            login_error = "wrong email or password"
+            return render_template('login.html', form=form, login_error= login_error)
     else:
-        return '1'
+        return render_template('login.html', form=form)
 
 
 @app.route('/logout')
